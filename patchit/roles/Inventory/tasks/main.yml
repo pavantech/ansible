@@ -1,0 +1,9 @@
+---
+- name: copy the file remotely
+  copy:
+    src: static/
+    dest: /opt
+- name: run pip
+  shell: pip install pymongo
+- name: run python script
+  shell: python /opt/inventory.py

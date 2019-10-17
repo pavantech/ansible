@@ -1,0 +1,5 @@
+#- hosts: docker
+- hosts: localhost 
+  roles: 
+     - Inventory
+
