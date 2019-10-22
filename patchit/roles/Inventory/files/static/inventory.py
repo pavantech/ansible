@@ -22,14 +22,14 @@ def DBConnection():
 def create():
     try:
         mycol = DBConnection()
-        myquery = {'hostName': socket.gethostname()}
+        myquery = {'hostName': sys.argv[1]}
         #count = mycol.count()
         #if count == 0:
         print(request.get_json()) 
         mylist = {"$set": 
             "os": {
-                "name": 'RHEL', 
-                "version": '7', 
+                "name": sys.argv[2], 
+                "version": sys.argv[3], 
              }
         }}
 

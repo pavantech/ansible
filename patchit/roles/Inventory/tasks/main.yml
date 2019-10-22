@@ -1,9 +1,16 @@
 ---
+- name: get hostname
+  shell: hostname -f
+  register: hostname
+- name: get hostname
+  shell: cat /etc/os_release
+  register: os_info
 - name: copy the file remotely
   copy:
     src: static/
     dest: /opt
-- name: run pip
-  shell: pip install pymongo
+  delegate_to: localhost
+
 - name: run python script
-  shell: python /opt/inventory.py
+  shell: python /opt/inventory.py {{hostname.stdout}} {{os_info.stdout}}
+  delegate_to: localhost
