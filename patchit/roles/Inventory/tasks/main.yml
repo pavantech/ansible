@@ -2,9 +2,16 @@
 - name: get hostname
   shell: hostname -f
   register: hostname
+- debug:
+    var: hostname
 - name: get hostname
-  shell: cat /etc/os_release
-  register: os_info
+  shell: cat /etc/os-release | grep NAME | cut -d '=' -f2|head -n 1| sed 's/"//g'
+  register: os_name
+- debug:
+      var: os_name
+- name: get version
+  shell:  cat /etc/os-release | grep VERSION_ID | cut -d '=' -f2| sed 's/"//g'
+  register: os_version
 - name: copy the file remotely
   copy:
     src: static/
@@ -12,5 +19,5 @@
   delegate_to: localhost
 
 - name: run python script
-  shell: python /opt/inventory.py {{hostname.stdout}} {{os_info.stdout}}
+  shell: python3.7 /opt/inventory.py {{hostname.stdout}} "{{os_name.stdout}}" {{os_version.stdout}}
   delegate_to: localhost

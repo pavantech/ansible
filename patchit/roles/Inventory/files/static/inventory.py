@@ -14,31 +14,26 @@ def get_timestamp():
 def DBConnection():
     try:
         myclient = pymongo.MongoClient('mongodb://localhost:27017/')
-        mydb = myclient['mydatabase']
-        mycol = mydb['customers']
+        mydb = myclient['patchit']
+        mycol = mydb['inventory']
         return mycol
     except pymongo.errors.ConnectionFailure as e:
         print ('Could not connect to server: %s', e)
 def create():
     try:
-        mycol = DBConnection()
-        myquery = {'hostName': sys.argv[1]}
-        #count = mycol.count()
-        #if count == 0:
-        print(request.get_json()) 
-        mylist = {"$set": 
-            "os": {
-                "name": sys.argv[2], 
-                "version": sys.argv[3], 
-             }
-        }}
+       mycol = DBConnection()
+       myquery = {'hostName': sys.argv[1]}
+       name = sys.argv[2]
+       version =  sys.argv[3]
+       count = mycol.count()
+       if count == 0:
+          mylist = {"$set" : {"os" : { "name": name , "version": version }}}
 
     
-        print(mylist)
-        x = mycol.update_one(myquery,mylist)
-        print(x)
-        task = {'status': 'Sucessfully inserted record'}
-        res = json.dumps(task)
-        res1=json.loads(res)
-if _name_ == '_main_':
+          print(mylist)
+          x = mycol.update_one(myquery,mylist)
+          print(x)
+     except pymongo.errors.ConnectionFailure as e:
+        print ('Could not connect to server: %s', e)
+if __name__ == '__main__':
     create()
