@@ -19,5 +19,5 @@
   delegate_to: localhost
 
 - name: run python script
-  shell: python3.7 /opt/inventory.py {{hostname.stdout}} "{{os_name.stdout}}" {{os_version.stdout}}
+  shell: python3.7 /opt/inventory.py "{{hostname.stdout}}" "{{os_name.stdout}}" "{{os_version.stdout}}"
   delegate_to: localhost
